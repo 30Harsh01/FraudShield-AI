@@ -1,0 +1,116 @@
+# # serverless.yml
+# service: fraud-detector
+
+
+# provider:
+#   name: aws
+#   runtime: nodejs18.x
+#   region: ap-south-1
+#   timeout: 30
+#   environment:
+#     NODE_ENV: production
+
+
+
+# plugins:
+#   - serverless-offline
+
+# package:
+#   include:
+#     - src/python/**  # 👈 include all your Python scripts in the deployment
+
+# functions:
+#   health:
+#     handler: src/handlers/health.handler
+#     events:
+#       - http:
+#           path: health
+#           method: get
+
+#   train:
+#     handler: src/handlers/train.train
+#     events:
+#       - http:
+#           path: train
+#           method: post
+
+#   score:
+#     handler: src/handlers/score.handler
+#     events:
+#       - http:
+#           path: score
+#           method: post
+
+#   trust:
+#     handler: src/handlers/trust.handler
+#     events:
+#       - http:
+#           path: trust-score
+#           method: get
+
+#   refreshScores:
+#     handler: handlers/refreshScores.refreshScores
+#     events:
+#       - http:
+#           path: refresh-scores
+#           method: get
+
+
+
+
+
+
+service: fraud-detector
+
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-south-1
+  timeout: 30
+  environment:
+    NODE_ENV: production
+
+plugins:
+  - serverless-offline
+
+package:
+  include:
+    - src/python/**  # include Python scripts if used internally by Node.js
+
+functions:
+  health:
+    handler: dist/handlers/health.handler
+    events:
+      - http:
+          path: health
+          method: get
+
+  train:
+    handler: dist/handlers/train.train
+    events:
+      - http:
+          path: train
+          method: post
+
+  score:
+    handler: dist/handlers/score.handler
+    events:
+      - http:
+          path: score
+          method: post
+
+  trust:
+    handler: dist/handlers/trust.handler
+    events:
+      - http:
+          path: trust-score
+          method: get
+
+  refreshScores:
+    handler: dist/handlers/refreshScores.refreshScores
+    events:
+      - http:
+          path: refresh-scores
+          method: get
