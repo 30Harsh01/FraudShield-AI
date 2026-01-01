@@ -1,6 +1,10 @@
+---
+
 # FraudShield-AI
+
 AI-powered payment fraud detection platform that trains and deploys intelligent models to identify suspicious payment activity in real time, improving security, accuracy, and trust.
-**Hosted Link** https://paymentfrauddetector.netlify.app/
+
+**Hosted Link:** [https://paymentfrauddetector.netlify.app/](https://paymentfrauddetector.netlify.app/)
 
 ---
 
@@ -48,7 +52,7 @@ npm run build
 npm run start
 ```
 
-* The server checks database connection and starts listening for API requests.
+* The server checks the database connection and starts listening for API requests.
 
 ---
 
@@ -94,6 +98,10 @@ python generate_data.py
 * **Method:** `GET`
 * **Description:** Checks if the server is running.
 
+```bash
+curl --location 'http://localhost:3000/health'
+```
+
 ---
 
 ### 2. Train Layer 1
@@ -135,6 +143,37 @@ python generate_data.py
   * Maintains arrays for repeated emails.
   * Calculates **Layer 1 fraud score**.
 
+* **cURL Example:**
+
+```bash
+curl --location 'http://localhost:3000/train' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "bin": "120912",
+    "last_4": "1223",
+    "name": "Test user one2",
+    "email": "testuserone1@example.com",
+    "ip_address": "127.0.0.3",
+    "order_id": "099993",
+    "shopper_id": "199993",
+    "merchant_id": "299993",
+    "country_code": "Ife",
+    "currency": "454",
+    "sale": 1,
+    "sale_amount": 4000,
+    "refund": 0,
+    "refund_amount": 0,
+    "chargeback": 0,
+    "chargeback_amount": 0,
+    "billing_address": "123 Street",
+    "shipping_address": "123 Street",
+    "browser_info": "Chrome/117",
+    "avs_check": true,
+    "cvv_matched": false,
+    "is_3ds_required": false
+  }'
+```
+
 ---
 
 ### 3. Refresh Layer 2 Score (AI/ML)
@@ -157,6 +196,16 @@ python generate_data.py
   4. Updates `layer2_status` in the database.
   5. Returns updated status and AI confidence.
 
+* **cURL Example:**
+
+```bash
+curl --location 'http://localhost:3000/refreshscore' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+  "email": "testuserone@example.com,testuserone1@example.com"
+}'
+```
+
 ---
 
 ## 💡 Notes
@@ -177,37 +226,28 @@ python generate_data.py
 
 ---
 
-
-
-
-
-
-
-
----
-
 ## Frontend
 
 1. Install dependencies:
 
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
 
 2. Start the development server:
 
-   ```bash
-   npm run dev
-   ```
-
-## 🧪 Using the Fraud Detection Feature
-
-1. Once the application is running, open it in your browser.
-2. Click on the **Fraud Detection** card on the home page.
-3. Paste the **raw payment payload** (the same payload typically used for payment processing) into the input box.
-4. Click **Submit** to process the request.
-5. The fraud detection result will be displayed after submission.
+```bash
+npm run dev
+```
 
 ---
 
+## 🧪 Using the Fraud Detection Feature
 
+1. Open the app in your browser.
+2. Click the **Fraud Detection** card on the home page.
+3. Paste the **raw payment payload** into the input box.
+4. Click **Submit** to process the request.
+5. View the fraud detection result.
+
+---
